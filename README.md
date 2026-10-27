@@ -44,6 +44,7 @@ A disciplina apresenta a área de Interação Humano-Computador (IHC): princípi
 s05_interacao_homem_maquina/
 ├── reserva_armario/          # atividade de HTML, CSS & JS
 │   ├── index.html
+│   ├── styles.css
 │   └── script.js
 └── README.md
 ```
@@ -53,6 +54,8 @@ s05_interacao_homem_maquina/
 ### 🔐 Reserva de Armário
 
 Página em que o usuário escolhe o tipo de armário (padrão ou duplo). O sistema filtra os armários livres e compatíveis com a necessidade de acessibilidade do usuário, sorteia um deles, registra a reserva e mostra o prazo de devolução das chaves (24 horas).
+
+🔗 **[Ver online](https://carolferreira-dev.github.io/s05_interacao_homem_maquina/reserva_armario/)**
 
 ---
 
@@ -70,7 +73,7 @@ Página em que o usuário escolhe o tipo de armário (padrão ou duplo). O siste
    git clone https://github.com/carolferreira-dev/s05_interacao_homem_maquina.git
    ```
 
-2. Abra o arquivo `reserva_armario/index.html` no navegador.
+2. Abra o arquivo `reserva_armario/index.html` no navegador, ou acesse a [versão online](https://carolferreira-dev.github.io/s05_interacao_homem_maquina/reserva_armario/).
 
 ---
 
