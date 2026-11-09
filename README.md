@@ -46,6 +46,11 @@ s05_interacao_homem_maquina/
 │   ├── index.html
 │   ├── styles.css
 │   └── script.js
+├── projeto_final/            # projeto final: Reserva de Salas de Estudo
+│   ├── index.html
+│   ├── styles.css
+│   ├── script.js
+│   └── documentacao/         # PDF com User Story, HTA, diagrama e wireframes
 └── README.md
 ```
 
@@ -56,6 +61,12 @@ s05_interacao_homem_maquina/
 Página em que o usuário escolhe o tipo de armário (padrão ou duplo). O sistema filtra os armários livres e compatíveis com a necessidade de acessibilidade do usuário, sorteia um deles, registra a reserva e mostra o prazo de devolução das chaves (24 horas).
 
 🔗 **[Ver online](https://carolferreira-dev.github.io/s05_interacao_homem_maquina/reserva_armario/)**
+
+### 📚 Projeto Final – Reserva de Salas de Estudo
+
+Nova funcionalidade para o App Inatel: o aluno busca uma sala de estudo livre (com filtros de data, horário, bloco, capacidade e recursos), escolhe o horário, envia a reserva e acompanha o status por notificações. O app valida os dados, trata conflitos de horário e permite editar, cancelar e avaliar a sala. Reservas de grupo passam pela aprovação do professor.
+
+🔗 **[Ver online](https://carolferreira-dev.github.io/s05_interacao_homem_maquina/projeto_final/)** · 📄 **[Documentação](projeto_final/README.md)**
 
 ---
 
