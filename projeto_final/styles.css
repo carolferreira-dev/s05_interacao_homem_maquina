@@ -56,6 +56,11 @@ button { cursor: pointer; }
 .fill { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
 
 /* ---------- moldura do app (responsiva) ---------- */
+/* No celular o app ocupa a tela toda. No computador ele vira um aparelho
+   de proporção fixa (390 x 812), centralizado e escalado para caber na tela
+   (mesma ideia do frame do projeto FETIN). Como a moldura tem transform,
+   menu, diálogos e avisos ficam presos dentro dela. */
+#moldura { position: relative; }
 #app {
   position: relative;
   max-width: var(--app-max);
@@ -67,14 +72,22 @@ button { cursor: pointer; }
   display: flex;
   flex-direction: column;
 }
-@media (min-width: 600px) {
-  body { padding: 24px 0; }
-  #app {
-    min-height: calc(100vh - 48px);
-    border-radius: 24px;
-    box-shadow: 0 20px 60px rgba(10, 89, 155, .25);
-    overflow: hidden;
+@media (min-width: 601px) {
+  html, body { height: 100%; overflow: hidden; }
+  body {
+    background: radial-gradient(circle at 30% 20%, #dbe7f5, #b9cbe0 70%);
   }
+  #moldura {
+    --app-max: 390px;
+    width: 390px; height: 812px; flex: none;
+    border-radius: 30px; overflow: hidden;
+    background: var(--cor-back1);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, .11), 0 30px 80px rgba(10, 89, 155, .18);
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(var(--escala, 1));
+  }
+  #app { height: 100%; min-height: 0; overflow-y: auto; scrollbar-width: none; }
+  #app::-webkit-scrollbar { display: none; }
 }
 
 /* ---------- cabeçalho ---------- */
@@ -337,15 +350,22 @@ textarea.input { padding: 12px 14px; min-height: 70px; resize: none; }
 .drawer {
   position: fixed; top: 0; bottom: 0; z-index: 41;
   left: max(0px, calc(50% - var(--app-max) / 2));
-  width: min(300px, 82vw);
+  width: min(300px, 84%);
   background: var(--cor-card); box-shadow: var(--sombra-forte);
   display: flex; flex-direction: column; animation: deslizar .25s ease;
 }
 @keyframes deslizar { from { transform: translateX(-100%); } }
-.drawer .topo { background: var(--cor-click); color: #fff; padding: 28px 18px 18px; }
+.drawer .topo { position: relative; background: linear-gradient(135deg, var(--cor-click), var(--cor-sombra)); color: #fff; padding: 22px 18px 18px; }
+.drawer .topo .logo-menu svg { width: 64px; display: block; margin-bottom: 16px; }
+.drawer .topo .logo-menu path { fill: #fff; }
+.drawer .topo .fechar { position: absolute; top: 10px; right: 8px; color: #fff; }
+.drawer .topo .fechar:hover { background: rgba(255,255,255,.15); }
+.drawer .topo .sub { font-size: 12px; opacity: .85; margin-top: 2px; }
+.drawer .grupo { font-size: 11px; font-weight: bold; letter-spacing: .06em; text-transform: uppercase; color: var(--cor-text2); padding: 14px 22px 6px; }
+.drawer .versao { font-size: 10.5px; color: var(--cor-text2); text-align: center; padding: 4px 0 10px; }
 .drawer .avatar { width: 54px; height: 54px; border-radius: 50%; background: rgba(255,255,255,.2); display: flex; align-items: center; justify-content: center; margin-bottom: 10px; font-size: 20px; font-weight: bold; }
 .drawer nav { flex: 1; padding: 8px 0; overflow-y: auto; }
-.item-menu { width: 100%; display: flex; align-items: center; gap: 16px; padding: 14px 20px; border: 0; background: none; font-size: 14.5px; font-weight: bold; text-align: left; color: var(--cor-text); }
+.item-menu { width: calc(100% - 16px); margin: 1px 8px; border-radius: 12px; display: flex; align-items: center; gap: 16px; padding: 12px 14px; border: 0; background: none; font-size: 14.5px; font-weight: bold; text-align: left; color: var(--cor-text); }
 .item-menu .material-symbols-outlined { color: var(--cor-click); }
 .item-menu:hover { background: var(--cor-back1); }
 .item-menu.ativo { background: var(--cor-azul-claro); color: var(--cor-click); }
@@ -367,7 +387,7 @@ textarea.input { padding: 12px 14px; min-height: 70px; resize: none; }
 .sheet h2 { font-size: 18px; margin: 0; }
 .dialogo {
   position: fixed; z-index: 41; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  width: min(92vw, 400px); background: var(--cor-card); border-radius: 16px;
+  width: min(92%, 400px); background: var(--cor-card); border-radius: 16px;
   padding: 22px; box-shadow: var(--sombra-forte); animation: aparecer .22s ease;
 }
 @keyframes aparecer { from { opacity: 0; transform: translate(-50%, -46%) scale(.96); } }
@@ -385,7 +405,7 @@ textarea.input { padding: 12px 14px; min-height: 70px; resize: none; }
 [data-tema="escuro"] .aviso.erro { background: #3d1b19; color: #f6b8b3; }
 
 /* ---------- snackbar / toast ---------- */
-#toasts { position: fixed; z-index: 60; left: 50%; transform: translateX(-50%); bottom: 20px; width: min(92vw, 440px); display: grid; gap: 8px; pointer-events: none; }
+#toasts { position: fixed; z-index: 60; left: 50%; transform: translateX(-50%); bottom: 20px; width: min(92%, 440px); display: grid; gap: 8px; pointer-events: none; }
 .toast {
   pointer-events: auto;
   display: flex; align-items: center; gap: 10px;

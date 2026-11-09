@@ -251,7 +251,7 @@ function ir(tela, params = {}, opcoes = {}) {
   if (opcoes.raiz) ui.pilha = [];
   ui.tela = tela; ui.params = params; ui.voltar = false;
   render();
-  window.scrollTo({ top: 0 });
+  rolarTopo();
 }
 function voltar() {
   fecharCamada();
@@ -259,7 +259,7 @@ function voltar() {
   if (!ant) return ir('inicio', {}, { raiz: true });
   ui.tela = ant.tela; ui.params = ant.params; ui.voltar = true;
   render();
-  window.scrollTo({ top: 0 });
+  rolarTopo();
 }
 
 /* ---------------- Filtros da busca ---------------- */
@@ -478,23 +478,32 @@ function telaInicio() {
 }
 
 /* ======================= TELA 3 - MENU LATERAL ======================= */
+const ativasBadge = () => { const n = minhasReservas().filter(ativa).length; return n ? `<span class="pill" style="margin-left:auto">${n}</span>` : ''; };
+const pendBadge = () => { const n = state.reservas.filter(r => r.status === 'PENDENTE' && USUARIOS[r.usuario]?.tipo !== 'professor' && r.pessoas >= PESSOAS_APROVACAO).length; return n ? `<span class="pill alerta" style="margin-left:auto">${n}</span>` : ''; };
 function abrirMenu() {
   const u = usuario();
   const item = (acao, icone, txt, tela, extra = '') => `<button class="item-menu ${ui.tela === tela ? 'ativo' : ''}" data-acao="${acao}">${ic(icone)}${txt}${extra}</button>`;
   const iniciais = u.nome.split(' ').map(p => p[0]).slice(0, 2).join('');
   abrirCamada(`<div class="scrim" data-acao="fecharCamada"></div>
     <aside class="drawer" role="dialog" aria-label="Menu">
-      <div class="topo"><div class="avatar">${iniciais}</div><b>${esc(u.nome)}</b><div style="font-size:12.5px;opacity:.85">Mat. ${u.matricula} · ${u.tipo === 'aluno' ? 'Aluna' : 'Professor'}</div></div>
+      <div class="topo">
+        <div class="logo-menu">${LOGO}</div>
+        <button class="icon-btn fechar" data-acao="fecharCamada" aria-label="Fechar menu">${ic('close')}</button>
+        <div class="linha" style="gap:12px"><div class="avatar" style="margin:0">${iniciais}</div>
+          <div><b>${esc(u.nome)}</b><div class="sub">Mat. ${u.matricula} · ${u.tipo === 'aluno' ? `${u.periodo}º período` : 'Professor'}</div></div></div>
+      </div>
       <nav>
         ${item('inicio', 'home', 'Início', 'inicio')}
-        ${item('verSalas', 'meeting_room', 'Reserva de salas', 'salas')}
-        ${item('minhas', 'event_note', 'Minhas reservas', 'minhas')}
-        ${u.tipo === 'professor' ? item('aprovar', 'fact_check', 'Aprovar reservas', 'aprovar') : ''}
+        <div class="grupo">Reserva de salas</div>
+        ${item('verSalas', 'meeting_room', 'Buscar salas', 'salas')}
+        ${item('minhas', 'event_note', 'Minhas reservas', 'minhas', ativasBadge())}
+        ${u.tipo === 'professor' ? item('aprovar', 'fact_check', 'Aprovar reservas', 'aprovar', pendBadge()) : ''}
         ${item('notificacoes', 'notifications', 'Notificações', 'notificacoes', naoLidas() ? `<span class="badge">${naoLidas()}</span>` : '')}
-        ${item('tema', state.tema === 'escuro' ? 'light_mode' : 'dark_mode', state.tema === 'escuro' ? 'Tema Inatel (claro)' : 'Tema escuro', '-')}
+        <div class="grupo">Preferências</div>
+        ${item('tema', state.tema === 'escuro' ? 'light_mode' : 'dark_mode', state.tema === 'escuro' ? 'Tema claro' : 'Tema escuro', '-')}
         ${item('reiniciar', 'restart_alt', 'Reiniciar demonstração', '-')}
       </nav>
-      <div class="rodape"><button class="item-menu sair" data-acao="sair">${ic('logout')}Sair</button></div>
+      <div class="rodape"><button class="item-menu sair" data-acao="sair">${ic('logout')}Sair</button><div class="versao">App Inatel · Reserva de Salas v1.0</div></div>
     </aside>`);
 }
 
@@ -982,6 +991,15 @@ function abrirRecusa(id) {
 
 /* ---------------- Camadas, toasts, agenda ---------------- */
 const camada = document.getElementById('camada');
+function rolarTopo() { window.scrollTo({ top: 0 }); app.scrollTop = 0; }
+// Mesmo cálculo do frame do projeto FETIN: escala o aparelho para caber na janela
+function ajustarEscala() {
+  const w = window.innerWidth, h = window.innerHeight;
+  const escala = w > 600 ? Math.min((w - 48) / 390, (h - 20) / 812) : 1;
+  document.documentElement.style.setProperty('--escala', Math.max(0.5, escala).toFixed(3));
+}
+window.addEventListener('resize', ajustarEscala);
+ajustarEscala();
 function abrirCamada(html) { camada.innerHTML = html; document.body.style.overflow = 'hidden'; }
 function fecharCamada() { camada.innerHTML = ''; document.body.style.overflow = ''; }
 

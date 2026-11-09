@@ -36,5 +36,12 @@ projeto_final/
 ├── styles.css      # identidade visual do App Inatel (cores, tipografia, componentes)
 ├── script.js       # telas, regras de negócio e dados (salvos no localStorage)
 └── documentacao/
-    └── Projeto_Final_IHM_Reserva_de_Salas_Caroline_Ferreira.pdf
+    ├── Projeto_Final_IHM_Reserva_de_Salas_Caroline_Ferreira.pdf
+    └── atividades_corrigidas/
+        ├── User_Story_HTA_Reserva_de_Salas_Caroline_Ferreira.pdf
+        └── Diagrama_de_Classes_Reserva_de_Salas_Caroline_Ferreira.pdf
 ```
+
+> As atividades corrigidas trazem o User Story e a Análise da Tarefa refeitos para a Reserva de Salas (a versão anterior era sobre outra funcionalidade), com a HTA na notação da disciplina, e o diagrama de classes atualizado com os atributos usados no protótipo.
+
+No computador, o app aparece como um celular de proporção fixa (390 × 812), centralizado e ajustado ao tamanho da janela; no celular ele ocupa a tela inteira.
